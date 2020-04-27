@@ -1,5 +1,5 @@
 OPT = -std=c++11
-INC = -I/usr/lib/llvm-3.8/include
+INC = $(shell llvm-config-3.10 --includedir)
 EXE = type-rename
 SRC = TypeRename.cpp
 CXX ?= clang++
@@ -22,8 +22,7 @@ all: $(EXE)
 
 
 $(EXE): $(SRC)
-	$(CXX) -o $(EXE) $(SRC) $(OPT) $(INC) -g $(LIB) \
-    `llvm-config-3.8 --ldflags --libs all --system-libs`
+	$(CXX) -o $(EXE) $(SRC) $(OPT) $(INC) -g $(LIB) $(shell llvm-config-3.10 --ldflags --libs all --system-libs)
 
 clean:
 	rm -f $(EXE) *.dwo
